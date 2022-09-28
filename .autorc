@@ -1,0 +1,16 @@
+{
+  "author": {
+    "name": "Eric Hayes",
+    "email": "eric@deployfx.com"
+  },
+  "prereleaseBranches": ["next"],
+  "plugins": [
+    ["git-tag"],
+    ["released", { "includeBotPrs": true }],
+    ["first-time-contributor"],
+    ["all-contributors", {
+      "exclude": ["dependabot", "ci-services"]
+    }]
+  ]
+}
+

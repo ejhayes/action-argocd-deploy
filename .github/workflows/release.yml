@@ -1,0 +1,36 @@
+on:
+  push:
+    branches:
+      - main
+      - next
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Prepare repository
+        run: git fetch --unshallow --tags
+      - uses: actions/cache@v3
+        with:
+          path: ./node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+      - name: Create Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm ci
+          npm run ci:build
+          npx auto shipit
+      - name: Publish Action
+        run: |
+          RELEASE_NAME=releases/$(git describe --tags --abbrev=0 | cut -d- -f2 | cut -d. -f1)
+          npx action-docs -u
+          npm prune --production
+          git checkout --orphan $RELEASE_NAME
+          git rm -f --cached -r .
+          git add -f dist/index.js action.yml README.md CHANGELOG.md package-lock.json LICENSE
+          git clean -fdx
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m "Release created from $GITHUB_SHA"
+          git push origin -f $RELEASE_NAME

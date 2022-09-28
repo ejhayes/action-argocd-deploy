@@ -1,0 +1,52 @@
+{
+  "name": "action-argocd-deploy",
+  "version": "0.0.1",
+  "description": "Action to deploy a values file to argo using the api",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "rimraf dist && tsc -p tsconfig.build.json",
+    "ci:build": "npm run build && npm run package",
+    "ci:test": "npm run test",
+    "format": "prettier --write .",
+    "lint": "eslint \"{src,test}/**/*.ts\"",
+    "package": "ncc build",
+    "test": "npm run lint && npm run format"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ejhayes/action-argocd-deploy.git"
+  },
+  "author": "Eric Hayes",
+  "license": "ISC",
+  "types": "./dist/index.d.ts",
+  "bugs": {
+    "url": "https://github.com/ejhayes/action-argocd-deploy/issues"
+  },
+  "homepage": "https://github.com/ejhayes/action-argocd-deploy#readme",
+  "devDependencies": {
+    "@actions/core": "^1.9.1",
+    "@auto-it/all-contributors": "^10.37.6",
+    "@auto-it/first-time-contributor": "^10.37.6",
+    "@auto-it/git-tag": "^10.37.6",
+    "@modiohealth/eslint-config": "^0.0.5--canary.49d6ab9.0",
+    "@types/diff": "^5.0.2",
+    "@types/js-yaml": "^4.0.5",
+    "@typescript-eslint/eslint-plugin": "^5.38.1",
+    "@vercel/ncc": "^0.34.0",
+    "action-docs": "^1.0.4",
+    "auto": "^10.37.6",
+    "eslint": "^8.24.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-typescript-sort-keys": "^2.1.0",
+    "prettier": "^2.7.1",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.8.3"
+  },
+  "dependencies": {
+    "diff": "^5.1.0",
+    "js-yaml": "^4.1.0",
+    "typed-rest-client": "^1.8.9"
+  }
+}

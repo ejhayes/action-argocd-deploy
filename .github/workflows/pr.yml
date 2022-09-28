@@ -1,0 +1,20 @@
+on:
+  pull_request:
+    types: [opened, synchronize]
+jobs:
+  pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Prepare repository
+        run: git fetch --tags
+      - uses: actions/cache@v3
+        with:
+          path: ./node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm ci
+          npm run ci:build
+          npx auto shipit -d
