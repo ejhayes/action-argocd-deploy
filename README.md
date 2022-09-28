@@ -47,7 +47,7 @@ jobs:
   tester:
     runs-on: ubuntu-latest
     steps:
-      - uses: ejhayes/action-argocd-deploy@releases/next
+      - uses: ejhayes/action-argocd-deploy@releases/v1
         with:
           clientId: ${{ secrets.ARGOCD_CLIENTID }}
           clientSecret: ${{ secrets.ARGOCD_CLIENTSECRET }}
