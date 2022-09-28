@@ -1,3 +1,18 @@
+# v1.0.0 (Wed Sep 28 2022)
+
+#### 💥 Breaking Change
+
+- Update readme contents to use v1 [#1](https://github.com/ejhayes/action-argocd-deploy/pull/1) ([@ejhayes](https://github.com/ejhayes))
+
+#### 🐛 Bug Fix
+
+
+#### Authors: 1
+
+- Eric Hayes ([@ejhayes](https://github.com/ejhayes))
+
+---
+
 # v0.0.2 (Wed Sep 28 2022)
 
 :tada: This release contains work from a new contributor! :tada:
