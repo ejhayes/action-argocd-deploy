@@ -1,3 +1,19 @@
+# v0.0.2 (Wed Sep 28 2022)
+
+:tada: This release contains work from a new contributor! :tada:
+
+Thank you, Eric Hayes ([@ejhayes](https://github.com/ejhayes)), for all your work!
+
+#### ⚠️ Pushed to `main`
+
+- Initial commit ([@ejhayes](https://github.com/ejhayes))
+
+#### Authors: 1
+
+- Eric Hayes ([@ejhayes](https://github.com/ejhayes))
+
+---
+
 # v1.1.2 (Tue Sep 27 2022)
 
 #### ⚠️ Pushed to `main`
