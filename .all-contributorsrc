@@ -9,6 +9,18 @@
   "imageSize": 100,
   "commit": true,
   "commitConvention": "none",
-  "contributors": [],
+  "contributors": [
+    {
+      "login": "ejhayes",
+      "name": "Eric Hayes",
+      "avatar_url": "https://avatars.githubusercontent.com/u/310233?v=4",
+      "profile": "https://github.com/ejhayes",
+      "contributions": [
+        "doc",
+        "infra",
+        "code"
+      ]
+    }
+  ],
   "contributorsPerLine": 7
 }
