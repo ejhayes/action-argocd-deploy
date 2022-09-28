@@ -1,0 +1,13 @@
+---
+version: 1
+labels:
+  - label: 'small'
+    size-below: 10
+  - label: 'medium'
+    size-above: 9
+    size-below: 100
+  - label: 'large'
+    size-above: 100
+  - label: 'documentation'
+    files:
+      - '.+.md'
