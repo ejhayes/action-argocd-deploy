@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_TOKEN }}
       - name: Prepare repository
         run: git fetch --unshallow --tags
       - uses: actions/cache@v3
@@ -16,7 +18,7 @@ jobs:
           key: modules-${{ hashFiles('package-lock.json') }}
       - name: Create Release
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           npm ci
           npm run ci:build
