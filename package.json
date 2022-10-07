@@ -28,7 +28,7 @@
     "@auto-it/all-contributors": "^10.37.6",
     "@auto-it/first-time-contributor": "^10.37.6",
     "@auto-it/git-tag": "^10.37.6",
-    "@modiohealth/eslint-config": "^0.0.5--canary.49d6ab9.0",
+    "@modiohealth/eslint-config": "^0.0.13",
     "@types/diff": "^5.0.2",
     "@types/js-yaml": "^4.0.5",
     "@typescript-eslint/eslint-plugin": "^5.38.1",
