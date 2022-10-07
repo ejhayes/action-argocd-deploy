@@ -1,3 +1,5 @@
+import 'source-map-support/register';
+
 import { readFile } from 'fs';
 import { promisify } from 'util';
 import * as core from '@actions/core';
@@ -140,6 +142,13 @@ async function upsertApplication(args: ActionArgs) {
   });
 
   const webUiUrl = `${args.gitWebUrl}/blob/${args.gitSha}`;
+
+  try {
+    await app.toManifest();
+  } catch (err) {
+    core.error(err);
+    throw err;
+  }
 
   const manifestDiff = createTwoFilesPatch(
     `${args.valuesFile}.original`,
