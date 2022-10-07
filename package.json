@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/ejhayes/action-argocd-deploy#readme",
   "devDependencies": {
-    "@actions/core": "^1.9.1",
+    "@actions/core": "^1.10.0",
     "@auto-it/all-contributors": "^10.37.6",
     "@auto-it/first-time-contributor": "^10.37.6",
     "@auto-it/git-tag": "^10.37.6",
