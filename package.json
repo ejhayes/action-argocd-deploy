@@ -31,7 +31,7 @@
     "@modiohealth/eslint-config": "^0.0.5--canary.49d6ab9.0",
     "@types/diff": "^5.0.2",
     "@types/js-yaml": "^4.0.5",
-    "@typescript-eslint/eslint-plugin": "^5.38.1",
+    "@typescript-eslint/eslint-plugin": "^5.45.1",
     "@vercel/ncc": "^0.34.0",
     "action-docs": "^1.0.4",
     "auto": "^10.37.6",
