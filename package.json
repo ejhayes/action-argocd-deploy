@@ -35,7 +35,7 @@
     "@vercel/ncc": "^0.34.0",
     "action-docs": "^1.0.4",
     "auto": "^10.37.6",
-    "eslint": "^8.24.0",
+    "eslint": "^8.33.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.2.1",
