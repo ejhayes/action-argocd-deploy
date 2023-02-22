@@ -23,7 +23,7 @@ To use this in your projects:
 ```yaml
 - uses: ejhayes/action-argocd-deploy@releases/v1
   with:
-    apiToken: ***
+    accessToken: ***
     baseUrl: http://argocd-api.example.com
     name: 'my-service'
     namespace: theNamespace
@@ -87,10 +87,11 @@ service:
 
 | parameter    | description                                           | required | default                  |
 | ------------ | ----------------------------------------------------- | -------- | ------------------------ |
+| accessToken  | ArgoCD Access Token                                   | `false`  |                          |
 | action       | Action to perform (upsert, delete)                    | `true`   | upsert                   |
 | annotations  | Key/Value pair of annotations for the application     | `false`  | {}                       |
-| clientId     | ArgoCD Client Id / Username                           | `true`   |                          |
-| clientSecret | ArgoCD Client Secret / Password                       | `true`   |                          |
+| clientId     | ArgoCD Client Id / Username - If no accessToken       | `false`  |                          |
+| clientSecret | ArgoCD Client Secret / Password - If no accessToken   | `false`  |                          |
 | clusterName  | Cluster name to deploy to                             | `true`   |                          |
 | baseUrl      | ArgoCD base url to use                                | `true`   |                          |
 | gitRef       | Revision to deploy to ArgoCD                          | `false`  | ${{ github.ref }}        |

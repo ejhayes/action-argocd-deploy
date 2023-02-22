@@ -8,6 +8,7 @@ import { dump, load } from 'js-yaml';
 import { ArgoCDApi } from './argocd';
 
 enum INPUTS {
+  ACCESS_TOKEN = 'accessToken',
   ACTION = 'action',
   ANNOTATIONS = 'annotations',
   BASE_URL = 'baseUrl',
@@ -29,6 +30,10 @@ interface KeyVal {
 }
 
 interface ActionArgs {
+  /**
+   * ArgoCD Access Token
+   */
+  accessToken: string;
   /**
    * Action type to perform
    */
@@ -207,6 +212,7 @@ function getClient(args: ActionArgs) {
       baseUrl: args.baseUrl,
       clientId: args.clientId,
       clientSecret: args.clientSecret,
+      accessToken: args.accessToken
     },
     args.dryRun,
   );
@@ -219,8 +225,9 @@ function getInputs(): ActionArgs {
       core.getInput(INPUTS.ANNOTATIONS, { required: false }),
     ) || {}) as KeyVal,
     baseUrl: core.getInput(INPUTS.BASE_URL, { required: true }),
-    clientId: core.getInput(INPUTS.CLIENT_ID, { required: true }),
-    clientSecret: core.getInput(INPUTS.CLIENT_SECRET, { required: true }),
+    clientId: core.getInput(INPUTS.CLIENT_ID, { required: false }),
+    clientSecret: core.getInput(INPUTS.CLIENT_SECRET, { required: false }),
+    accessToken: core.getInput(INPUTS.CLIENT_SECRET, { required: false }),
     clusterName: core.getInput(INPUTS.CLUSTER_NAME, { required: true }),
     dryRun: core.getBooleanInput(INPUTS.DRY_RUN, { required: false }),
     /**
