@@ -106,7 +106,6 @@ service:
 
 | parameter    | description                                           | required | default                  |
 | ------------ | ----------------------------------------------------- | -------- | ------------------------ |
-| accessToken  | ArgoCD Access Token                                   | `false`  |                          |
 | action       | Action to perform (upsert, delete)                    | `true`   | upsert                   |
 | annotations  | Key/Value pair of annotations for the application     | `false`  | {}                       |
 | clientId     | ArgoCD Client Id / Username                           | `false`  |                          |
