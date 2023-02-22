@@ -20,10 +20,29 @@ To use this in your projects:
 
 ### minimal example
 
+Using [access token](https://argo-cd.readthedocs.io/en/latest/user-guide/commands/argocd_account_generate-token/):
 ```yaml
 - uses: ejhayes/action-argocd-deploy@releases/v1
   with:
-    apiToken: ***
+    accessToken: MY_ACCESS_TOKEN
+    baseUrl: http://argocd-api.example.com
+    name: 'my-service'
+    namespace: theNamespace
+    project: myproject
+    tokens: |
+      SOME_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      MY_TOKEN: someValue
+    valuesFile: ./values.yaml
+    info: |
+      environment: prod
+```
+
+Using username/password (or clientid/secret):
+```yaml
+- uses: ejhayes/action-argocd-deploy@releases/v1
+  with:
+    clientId: MY_USERNAME
+    clientSecret: MY_PASSWORD
     baseUrl: http://argocd-api.example.com
     name: 'my-service'
     namespace: theNamespace
@@ -89,8 +108,8 @@ service:
 | ------------ | ----------------------------------------------------- | -------- | ------------------------ |
 | action       | Action to perform (upsert, delete)                    | `true`   | upsert                   |
 | annotations  | Key/Value pair of annotations for the application     | `false`  | {}                       |
-| clientId     | ArgoCD Client Id / Username                           | `true`   |                          |
-| clientSecret | ArgoCD Client Secret / Password                       | `true`   |                          |
+| clientId     | ArgoCD Client Id / Username                           | `false`  |                          |
+| clientSecret | ArgoCD Client Secret / Password                       | `false`  |                          |
 | clusterName  | Cluster name to deploy to                             | `true`   |                          |
 | baseUrl      | ArgoCD base url to use                                | `true`   |                          |
 | gitRef       | Revision to deploy to ArgoCD                          | `false`  | ${{ github.ref }}        |
