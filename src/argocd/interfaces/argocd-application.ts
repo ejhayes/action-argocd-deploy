@@ -6,8 +6,9 @@ export interface IArgoCDApplication {
   };
   spec?: {
     destination: {
-      name: string;
+      name?: string;
       namespace: string;
+      server?: string;
     };
     info?: { name: string; value: string }[];
     project: string;

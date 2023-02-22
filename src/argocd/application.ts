@@ -1,4 +1,5 @@
 import { dump, load } from 'js-yaml';
+import { APPLICATION_LABELS } from './constants';
 import { IArgoCDApplication } from './interfaces/argocd-application';
 import { ICreateApplication } from './interfaces/create-application';
 
@@ -13,7 +14,10 @@ export class ArgoApplication {
       metadata: {
         name: this.releaseName,
         annotations: this.args.annotations,
-        labels: this.args.labels,
+        labels: {
+          ...this.args.labels,
+          ...APPLICATION_LABELS,
+        },
       },
       spec: {
         destination: {

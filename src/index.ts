@@ -201,6 +201,12 @@ async function deleteApplication(args: ActionArgs) {
   core.summary.write();
 }
 
+async function deleteUnusedApplications(args: ActionArgs) {
+  const client = getClient(args);
+
+  await client.destroyRepoApplications(args.gitRepoUrl, )
+}
+
 function getClient(args: ActionArgs) {
   return new ArgoCDApi(
     {
@@ -213,8 +219,11 @@ function getClient(args: ActionArgs) {
 }
 
 function getInputs(): ActionArgs {
+  const action = core.getInput(INPUTS.ACTION, {
+    required: true,
+  }) as ActionArgs['action'];
   return {
-    action: core.getInput(INPUTS.ACTION, { required: true }) as any,
+    action,
     annotations: (load(
       core.getInput(INPUTS.ANNOTATIONS, { required: false }),
     ) || {}) as KeyVal,
@@ -239,15 +248,17 @@ function getInputs(): ActionArgs {
       'git:',
     )}/${process.env.GITHUB_REPOSITORY.replace(/(?<!\.git)$/, '.git')}`,
     name: core.getInput(INPUTS.NAME, { required: true }),
-    namespace: core.getInput(INPUTS.NAMESPACE, { required: true }),
-    project: core.getInput(INPUTS.PROJECT, { required: true }),
-    valuesFile: core.getInput(INPUTS.VALUES_FILE, { required: true }),
-    info: (load(core.getInput(INPUTS.INFO, { required: false })) ||
-      {}) as KeyVal,
-    labels: (load(core.getInput(INPUTS.LABELS, { required: true })) ||
-      {}) as KeyVal,
+    namespace: core.getInput(INPUTS.NAMESPACE, {
+      required: action !== 'delete',
+    }),
+    project: core.getInput(INPUTS.PROJECT, { required: action !== 'delete' }),
+    valuesFile: core.getInput(INPUTS.VALUES_FILE, {
+      required: action !== 'delete',
+    }),
+    info: load(core.getInput(INPUTS.INFO, { required: false })) as KeyVal,
+    labels: load(core.getInput(INPUTS.LABELS, { required: true })) as KeyVal,
     path: core.getInput(INPUTS.PATH, { required: true }),
-    tokens: (load(core.getInput(INPUTS.TOKENS, { required: true })) ||
+    tokens: (load(core.getInput(INPUTS.TOKENS, { required: false })) ||
       {}) as KeyVal,
   };
 }
