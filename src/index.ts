@@ -209,17 +209,18 @@ async function deleteApplication(args: ActionArgs) {
 function getClient(args: ActionArgs) {
   return new ArgoCDApi(
     {
+      accessToken: args.accessToken,
       baseUrl: args.baseUrl,
       clientId: args.clientId,
       clientSecret: args.clientSecret,
-      accessToken: args.accessToken
     },
     args.dryRun,
   );
 }
 
 function getInputs(): ActionArgs {
-  return {
+  const inputs = {
+    accessToken: core.getInput(INPUTS.CLIENT_SECRET, { required: false }),
     action: core.getInput(INPUTS.ACTION, { required: true }) as any,
     annotations: (load(
       core.getInput(INPUTS.ANNOTATIONS, { required: false }),
@@ -227,7 +228,6 @@ function getInputs(): ActionArgs {
     baseUrl: core.getInput(INPUTS.BASE_URL, { required: true }),
     clientId: core.getInput(INPUTS.CLIENT_ID, { required: false }),
     clientSecret: core.getInput(INPUTS.CLIENT_SECRET, { required: false }),
-    accessToken: core.getInput(INPUTS.CLIENT_SECRET, { required: false }),
     clusterName: core.getInput(INPUTS.CLUSTER_NAME, { required: true }),
     dryRun: core.getBooleanInput(INPUTS.DRY_RUN, { required: false }),
     /**
@@ -257,6 +257,25 @@ function getInputs(): ActionArgs {
     tokens: (load(core.getInput(INPUTS.TOKENS, { required: true })) ||
       {}) as KeyVal,
   };
+
+  // check for correct access credentials (only one should be specified)
+  const accessTokenExists = inputs.accessToken.trim() !== '';
+  const clientCredentialsExists =
+    inputs.clientId.trim() !== '' && inputs.clientSecret.trim() !== '';
+
+  if (accessTokenExists && clientCredentialsExists) {
+    core.setFailed(
+      'You must specify access token OR client credentials, not both',
+    );
+    throw new Error('Invalid credentials');
+  }
+
+  if (!accessTokenExists && !clientCredentialsExists) {
+    core.setFailed('No access credentials provided');
+    throw new Error('No credentials');
+  }
+
+  return inputs;
 }
 
 run();
