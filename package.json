@@ -9,7 +9,7 @@
     "ci:test": "npm run test",
     "format": "prettier --write .",
     "lint": "eslint \"{src,test}/**/*.ts\"",
-    "package": "ncc build",
+    "package": "ncc build --source-map",
     "test": "npm run lint && npm run format"
   },
   "repository": {
