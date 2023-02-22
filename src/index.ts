@@ -220,7 +220,7 @@ function getClient(args: ActionArgs) {
 
 function getInputs(): ActionArgs {
   const inputs = {
-    accessToken: core.getInput(INPUTS.CLIENT_SECRET, { required: false }),
+    accessToken: core.getInput(INPUTS.ACCESS_TOKEN, { required: false }),
     action: core.getInput(INPUTS.ACTION, { required: true }) as any,
     annotations: (load(
       core.getInput(INPUTS.ANNOTATIONS, { required: false }),
