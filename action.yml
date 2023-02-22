@@ -39,21 +39,21 @@ inputs:
     required: true
   namespace:
     description: 'Namespace to deploy application to'
-    required: true
+    required: false
   path:
     description: 'Path to helm chart'
     required: false
     default: ''
   project:
     description: 'Argo project to create application in'
-    required: true
+    required: false
   tokens:
     description: 'Key/Value list of tokens to replace in helm chart'
     required: false
     default: '{}'
   valuesFile:
     description: 'Values file to pass to ArgoCD'
-    required: true
+    required: false
 runs:
   using: 'node16'
   main: 'dist/index.js'

@@ -1,7 +1,9 @@
 import { info } from '@actions/core';
 import { IRestResponse, RestClient } from 'typed-rest-client';
 import { ArgoApplication } from './application';
+import { DEPLOYED_BY, DEPLOYED_BY_LABEL } from './constants';
 import { IArgoCDApplication } from './interfaces/argocd-application';
+import { IArgoCDApplicationList } from './interfaces/argocd-application-list';
 import { ICreateApplication } from './interfaces/create-application';
 
 interface ArgoCDApiArgs {
@@ -53,10 +55,14 @@ export class ArgoCDApi {
 
     if (this.dryRun) return app;
 
-    // does the application exist?
+    // does the application exist? (only look for resources this action has created)
     const appExists = await (
       await this._getClient()
-    ).get(`applications/${releaseName}`);
+    ).get(`applications/${releaseName}`, {
+      queryParameters: {
+        params: { selector: `${DEPLOYED_BY_LABEL}=${DEPLOYED_BY}` },
+      },
+    });
 
     let res: IRestResponse<unknown>;
 
@@ -82,6 +88,46 @@ export class ArgoCDApi {
   }
 
   /**
+   * Remove all managed applications for repo
+   * @url https://argo-cd.readthedocs.io/en/latest/user-guide/commands/argocd_app_list/#examples
+   */
+  async destroyRepoApplications(repo: string, selector: string[] = []) {
+    if (this.dryRun) return;
+
+    const appRes = await (
+      await this._getClient()
+    ).get<IArgoCDApplicationList>(`applications`, {
+      queryParameters: {
+        params: {
+          repo,
+          selector: [...selector, `${DEPLOYED_BY_LABEL}=${DEPLOYED_BY}`].join(
+            ',',
+          ),
+        },
+      },
+    });
+
+    if (appRes.statusCode !== 200) {
+      throw new Error(JSON.stringify(appRes));
+    }
+
+    // no results found
+    if (
+      appRes.result.items &&
+      (!Array.isArray(appRes.result.items) || appRes.result.items.length == 0)
+    ) {
+      return [];
+    }
+
+    // remove matching apps
+    return await Promise.all(
+      appRes.result.items.map(async (app) => {
+        return await this.destroyApplication(app.metadata.name);
+      }),
+    );
+  }
+
+  /**
    * Removes an argo application from kubernetes
    */
   async destroyApplication(releaseName: string): Promise<void> {
@@ -89,7 +135,11 @@ export class ArgoCDApi {
 
     const appRes = await (
       await this._getClient()
-    ).get<IArgoCDApplication>(`applications/${releaseName}`);
+    ).get<IArgoCDApplication>(`applications/${releaseName}`, {
+      queryParameters: {
+        params: { selector: `${DEPLOYED_BY_LABEL}=${DEPLOYED_BY}` },
+      },
+    });
 
     // if the deployment can't be found, return successfully since it's technically removed
     if (appRes.statusCode === 404) {

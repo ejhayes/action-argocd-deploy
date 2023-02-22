@@ -1,3 +1,47 @@
+# v1.0.1 (Fri Oct 07 2022)
+
+#### 🐛 Bug Fix
+
+- add dependabot, labeler configuration [#3](https://github.com/ejhayes/action-argocd-deploy/pull/3) ([@ejhayes](https://github.com/ejhayes))
+- Source map support / manifest generation error messages [#4](https://github.com/ejhayes/action-argocd-deploy/pull/4) ([@ejhayes](https://github.com/ejhayes))
+
+#### Authors: 1
+
+- Eric Hayes ([@ejhayes](https://github.com/ejhayes))
+
+---
+
+# v1.0.0 (Wed Sep 28 2022)
+
+#### 💥 Breaking Change
+
+- Update readme contents to use v1 [#1](https://github.com/ejhayes/action-argocd-deploy/pull/1) ([@ejhayes](https://github.com/ejhayes))
+
+#### 🐛 Bug Fix
+
+
+#### Authors: 1
+
+- Eric Hayes ([@ejhayes](https://github.com/ejhayes))
+
+---
+
+# v0.0.2 (Wed Sep 28 2022)
+
+:tada: This release contains work from a new contributor! :tada:
+
+Thank you, Eric Hayes ([@ejhayes](https://github.com/ejhayes)), for all your work!
+
+#### ⚠️ Pushed to `main`
+
+- Initial commit ([@ejhayes](https://github.com/ejhayes))
+
+#### Authors: 1
+
+- Eric Hayes ([@ejhayes](https://github.com/ejhayes))
+
+---
+
 # v1.1.2 (Tue Sep 27 2022)
 
 #### ⚠️ Pushed to `main`
