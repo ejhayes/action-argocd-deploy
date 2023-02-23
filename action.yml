@@ -2,6 +2,9 @@ name: 'ArgoCD Deploy Action'
 description: 'This action calls the ArgoCD API to create/update an application'
 author: 'Eric Hayes'
 inputs:
+  accessToken:
+    description: ArgoCD access token
+    required: false
   action:
     description: Action to perform (upsert, delete)
     default: upsert

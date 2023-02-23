@@ -1,5 +1,3 @@
-import 'source-map-support/register';
-
 import { readFile } from 'fs';
 import { promisify } from 'util';
 import * as core from '@actions/core';
@@ -8,6 +6,7 @@ import { dump, load } from 'js-yaml';
 import { ArgoCDApi } from './argocd';
 
 enum INPUTS {
+  ACCESS_TOKEN = 'accessToken',
   ACTION = 'action',
   ANNOTATIONS = 'annotations',
   BASE_URL = 'baseUrl',
@@ -29,6 +28,10 @@ interface KeyVal {
 }
 
 interface ActionArgs {
+  /**
+   * ArgoCD Access Token
+   */
+  accessToken: string;
   /**
    * Action type to perform
    */
@@ -204,6 +207,7 @@ async function deleteApplication(args: ActionArgs) {
 function getClient(args: ActionArgs) {
   return new ArgoCDApi(
     {
+      accessToken: args.accessToken,
       baseUrl: args.baseUrl,
       clientId: args.clientId,
       clientSecret: args.clientSecret,
@@ -213,14 +217,15 @@ function getClient(args: ActionArgs) {
 }
 
 function getInputs(): ActionArgs {
-  return {
+  const inputs = {
+    accessToken: core.getInput(INPUTS.ACCESS_TOKEN, { required: false }),
     action: core.getInput(INPUTS.ACTION, { required: true }) as any,
     annotations: (load(
       core.getInput(INPUTS.ANNOTATIONS, { required: false }),
     ) || {}) as KeyVal,
     baseUrl: core.getInput(INPUTS.BASE_URL, { required: true }),
-    clientId: core.getInput(INPUTS.CLIENT_ID, { required: true }),
-    clientSecret: core.getInput(INPUTS.CLIENT_SECRET, { required: true }),
+    clientId: core.getInput(INPUTS.CLIENT_ID, { required: false }),
+    clientSecret: core.getInput(INPUTS.CLIENT_SECRET, { required: false }),
     clusterName: core.getInput(INPUTS.CLUSTER_NAME, { required: true }),
     dryRun: core.getBooleanInput(INPUTS.DRY_RUN, { required: false }),
     /**
@@ -250,6 +255,25 @@ function getInputs(): ActionArgs {
     tokens: (load(core.getInput(INPUTS.TOKENS, { required: true })) ||
       {}) as KeyVal,
   };
+
+  // check for correct access credentials (only one should be specified)
+  const accessTokenExists = inputs.accessToken.trim() !== '';
+  const clientCredentialsExists =
+    inputs.clientId.trim() !== '' && inputs.clientSecret.trim() !== '';
+
+  if (accessTokenExists && clientCredentialsExists) {
+    core.setFailed(
+      'You must specify access token OR client credentials, not both',
+    );
+    throw new Error('Invalid credentials');
+  }
+
+  if (!accessTokenExists && !clientCredentialsExists) {
+    core.setFailed('No access credentials provided');
+    throw new Error('No credentials');
+  }
+
+  return inputs;
 }
 
 run();
