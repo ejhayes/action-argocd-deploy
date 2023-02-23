@@ -5,7 +5,8 @@ jobs:
   pr:
     runs-on: ubuntu-latest
     steps:
-      - run: cat $GITHUB_EVENT_PATH
+      - if: ${{ secrets.ACTION_RUNNER_DEBUG == 'true' }}
+        run: cat $GITHUB_EVENT_PATH
       - uses: actions/checkout@v3
       - name: Prepare repository
         run: git fetch --tags
