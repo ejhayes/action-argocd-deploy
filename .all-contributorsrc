@@ -20,6 +20,17 @@
         "infra",
         "code"
       ]
+    },
+    {
+      "login": "rfun",
+      "name": "Rohit Khattar",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2608543?v=4",
+      "profile": "https://github.com/rfun",
+      "contributions": [
+        "doc",
+        "infra",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7
