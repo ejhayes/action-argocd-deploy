@@ -5,7 +5,8 @@ jobs:
   pr:
     runs-on: ubuntu-latest
     steps:
-      - run: |
+      - if: runner.debug == 1
+        run:
           set
           cat $GITHUB_EVENT_PATH
       - uses: actions/checkout@v3
