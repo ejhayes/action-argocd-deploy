@@ -1,5 +1,3 @@
-import 'source-map-support/register';
-
 import { readFile } from 'fs';
 import { promisify } from 'util';
 import * as core from '@actions/core';
