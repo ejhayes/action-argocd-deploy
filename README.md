@@ -19,6 +19,7 @@ To use this in your projects:
 ### minimal example
 
 Using [access token](https://argo-cd.readthedocs.io/en/latest/user-guide/commands/argocd_account_generate-token/):
+
 ```yaml
 - uses: ejhayes/action-argocd-deploy@releases/v1
   with:
@@ -36,6 +37,7 @@ Using [access token](https://argo-cd.readthedocs.io/en/latest/user-guide/command
 ```
 
 Using username/password (or clientid/secret):
+
 ```yaml
 - uses: ejhayes/action-argocd-deploy@releases/v1
   with:
@@ -91,6 +93,7 @@ jobs:
 ```
 
 Example `fixtures/values.yml` would contain:
+
 ```yaml
 service:
   someParam:

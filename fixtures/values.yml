@@ -1,3 +1,0 @@
-service:
-  mySecret: __MYSECRET__
-  otherValue: __OTHERTOKEN__-someDefaultVaule
