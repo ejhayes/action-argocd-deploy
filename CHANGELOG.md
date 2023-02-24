@@ -1,3 +1,22 @@
+# v1.2.0 (Fri Feb 24 2023)
+
+#### 🚀 Enhancement
+
+- feat: deployment updates [#52](https://github.com/ejhayes/action-argocd-deploy/pull/52) ([@ejhayes](https://github.com/ejhayes))
+
+#### 🐛 Bug Fix
+
+- Fix: todo action [#51](https://github.com/ejhayes/action-argocd-deploy/pull/51) ([@ejhayes](https://github.com/ejhayes))
+
+#### 📝 Documentation
+
+
+#### Authors: 1
+
+- Eric Hayes ([@ejhayes](https://github.com/ejhayes))
+
+---
+
 # v1.1.0 (Thu Feb 23 2023)
 
 :tada: This release contains work from a new contributor! :tada:
