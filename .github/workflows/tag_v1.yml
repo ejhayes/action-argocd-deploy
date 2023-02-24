@@ -1,14 +1,14 @@
 on:
   push:
     branches:
-      - releases/next
+      - releases/v1
 
 jobs:
   verify_action_works:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: ejhayes/action-argocd-deploy@releases/next
+      - uses: ejhayes/action-argocd-deploy@releases/v1
         with:
           dryRun: true
           clientId: username

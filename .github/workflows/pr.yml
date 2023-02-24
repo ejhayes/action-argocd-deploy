@@ -5,20 +5,58 @@ jobs:
   pr:
     runs-on: ubuntu-latest
     steps:
-      - if: runner.debug == 1
-        run: |
-          set
-          cat $GITHUB_EVENT_PATH
       - uses: actions/checkout@v3
       - name: Prepare repository
         run: git fetch --tags
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
       - uses: actions/cache@v3
         with:
           path: ./node_modules
           key: modules-${{ hashFiles('package-lock.json') }}
-      - env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: wearerequired/lint-action@v2
+        with:
+          eslint: true
+          eslint_extensions: ts
+          prettier: true
+          prettier_extensions: ts,json,js,yml
+          # do not autofix for bots (unlikely this scenario will be encountered)
+          auto_fix: ${{ env.BOT != '1' && true || false }}
+          commit_message: 'chore(lint): Fix code style issues with ${linter}'
+          github_token: ${{ secrets.GITHUB_TOKEN }} # NOTE: Important: Make sure to exclude the .github directory in your ESLint and Prettier configs as the default GITHUB_TOKEN cannot be used to update workflow files due to the missing workflow permission
+          git_email: 'github-action@users.noreply.github.com'
+          eslint_args: '--max-warnings 0'
+      - name: Build
         run: |
           npm ci
           npm run ci:build
-          npx auto shipit -d
+      - name: Test Invocation
+        env:
+          INPUT_ACCESSTOKEN: dummyToken
+          INPUT_ACTION: upsert
+          INPUT_BASEURL: http://localhost
+          INPUT_CLUSTERNAME: in-cluster
+          INPUT_DRYRUN: true
+          INPUT_INFO: '{}'
+          INPUT_LABELS: '{}'
+          INPUT_NAME: test
+          INPUT_NAMESPACE: default
+          INPUT_PATH: fixtures
+          INPUT_PROJECT: default
+          INPUT_TOKENS: '{"TAG": "latest"}'
+          INPUT_VALUESFILE: fixtures/values.yml
+        run: node dist/index.js
+      - name: Version Dry Run
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx auto shipit -d
+  
+  debug:
+    if: ${{ failure }}
+    needs: [pr]
+    runs-on: ubuntu-latest
+    steps:
+      run: |
+        set
+        cat $GITHUB_EVENT_PATH
