@@ -239,10 +239,11 @@ function getInputs(): ActionArgs {
       process.env.GITHUB_REF.replace(/refs\/[^\/]+\/([^\/]+).*/, '$1'),
     gitSha: process.env.GITHUB_SHA,
     gitWebUrl: `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}`,
-    gitRepoUrl: `${process.env.GITHUB_SERVER_URL.replace(
-      /^https:/,
-      'git:',
-    )}/${process.env.GITHUB_REPOSITORY.replace(/(?<!\.git)$/, '.git')}`,
+    /**
+     * TODO: this can be either https or git depending on argocd setup. rather than
+     * making an assumption here this should be cleaned up to be configurable
+     */
+    gitRepoUrl: `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}`,
     name: core.getInput(INPUTS.NAME, { required: true }),
     namespace: core.getInput(INPUTS.NAMESPACE, { required: true }),
     project: core.getInput(INPUTS.PROJECT, { required: true }),
