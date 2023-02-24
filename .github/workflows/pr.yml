@@ -57,6 +57,6 @@ jobs:
     needs: [pr]
     runs-on: ubuntu-latest
     steps:
-      run: |
-        set
-        cat $GITHUB_EVENT_PATH
+      - run: |
+          set
+          cat $GITHUB_EVENT_PATH
