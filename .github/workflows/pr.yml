@@ -43,7 +43,7 @@ jobs:
           INPUT_PATH: fixtures
           INPUT_PROJECT: default
           INPUT_TOKENS: '{"TAG": "latest"}'
-          INPUT_VALUESFILE: fixtures/values.yml
+          INPUT_VALUESFILE: fixtures/values.yaml
         run: node dist/index.js
       - name: Version Dry Run
         env:
