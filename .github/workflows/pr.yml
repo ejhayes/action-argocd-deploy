@@ -15,6 +15,7 @@ jobs:
         with:
           path: ./node_modules
           key: modules-${{ hashFiles('package-lock.json') }}
+      - run: npm ci
       - uses: wearerequired/lint-action@v2
         with:
           eslint: true
@@ -27,10 +28,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }} # NOTE: Important: Make sure to exclude the .github directory in your ESLint and Prettier configs as the default GITHUB_TOKEN cannot be used to update workflow files due to the missing workflow permission
           git_email: 'github-action@users.noreply.github.com'
           eslint_args: '--max-warnings 0'
-      - name: Build
-        run: |
-          npm ci
-          npm run ci:build
+      - run: npm run ci:build
       - name: Test Invocation
         env:
           INPUT_ACCESSTOKEN: dummyToken
