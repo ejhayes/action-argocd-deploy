@@ -1,0 +1,78 @@
+name: 'ArgoCD Deploy Action'
+description: 'This action calls the ArgoCD API to create/update an application'
+author: 'Eric Hayes'
+inputs:
+  accessToken:
+    description: ArgoCD access token
+    required: false
+  action:
+    description: Action to perform (upsert, delete)
+    default: upsert
+    required: false
+  annotations:
+    description: Key/Value pair of annotations for the application
+    required: false
+    default: '{}'
+  baseUrl:
+    description: 'ArgoCD base url to use'
+    required: true
+  clientId:
+    description: 'ArgoCD Client Id / Username'
+    required: true
+  clientSecret:
+    description: 'ArgoCD Client Secret / Password'
+    required: true
+  clusterName:
+    description: 'Cluster name to deploy to'
+    required: true
+  dryRun:
+    description: 'Dry run mode (do not create or delete anything)'
+    required: false
+    default: false
+  info:
+    description: Key/Value pair of argo info values
+    required: false
+    default: '{}'
+  labels:
+    description: Key/Value pair of labels to apply to argo application
+    required: false
+    default: '{}'
+  name:
+    description: 'Name of the application to create'
+    required: true
+  namespace:
+    description: 'Namespace to deploy application to'
+    required: true
+  path:
+    description: 'Path to helm chart'
+    required: false
+    default: ''
+  project:
+    description: 'Argo project to create application in'
+    required: true
+  prNumber:
+    description: 'PR number'
+    default: ${{ github.event.number }}
+  repoRevision:
+    description: Repo revision to deploy
+    required: false
+    default: ${{ github.sha }}
+  repoUrl:
+    description: Repo URL to deploy
+    required: false
+    default: ${{ github.server_url }}/${{ github.repository }}
+  repoWebUrl:
+    description: Repo web url
+    required: false
+    default: ${{ github.server_url }}/${{ github.repository }}
+  tokens:
+    description: 'Key/Value list of tokens to replace in helm chart'
+    required: false
+    default: '{}'
+  valuesFile:
+    description: 'Values file to pass to ArgoCD'
+    required: true
+
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
