@@ -44,10 +44,10 @@ jobs:
           INPUT_PROJECT: default
           INPUT_TOKENS: '{"TAG": "latest"}'
           INPUT_VALUESFILE: fixtures/values.yaml
-          INPUT_REPO_URL: ${{ github.server_url }}/${{ github.repository }}
-          INPUT_REPO_WEBURL: ${{ github.server_url }}/${{ github.repository }}
-          INPUT_REPO_REVISION: ${{ github.sha }}
-          INPUT_PR_NUMBER: ${{ github.event.number }}
+          INPUT_REPOURL: ${{ github.server_url }}/${{ github.repository }}
+          INPUT_REPOWEBURL: ${{ github.server_url }}/${{ github.repository }}
+          INPUT_REPOREVISION: ${{ github.sha }}
+          INPUT_PRNUMBER: ${{ github.event.number }}
         run: node dist/index.js
       - name: Version Dry Run
         env:
