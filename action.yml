@@ -72,7 +72,7 @@ inputs:
   valuesFile:
     description: 'Values file to pass to ArgoCD'
     required: true
-  
+
 runs:
   using: 'node16'
   main: 'dist/index.js'
