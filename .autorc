@@ -9,7 +9,7 @@
     ["released", { "includeBotPrs": true }],
     ["first-time-contributor"],
     ["all-contributors", {
-      "exclude": ["dependabot", "ci-services"]
+      "exclude": ["dependabot[bot]", "GitHub-Action"]
     }]
   ]
 }
