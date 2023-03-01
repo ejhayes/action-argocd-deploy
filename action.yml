@@ -50,6 +50,21 @@ inputs:
   project:
     description: 'Argo project to create application in'
     required: true
+  prNumber:
+    description: 'PR number'
+    default: ${{ github.event.number }}
+  repoRevision:
+    description: Repo revision to deploy
+    required: false
+    default: ${{ github.sha }}
+  repoUrl:
+    description: Repo URL to deploy
+    required: false
+    default: ${{ github.server_url }}/${{ github.repository }}
+  repoWebUrl:
+    description: Repo web url
+    required: false
+    default: ${{ github.server_url }}/${{ github.repository }}
   tokens:
     description: 'Key/Value list of tokens to replace in helm chart'
     required: false
@@ -57,6 +72,7 @@ inputs:
   valuesFile:
     description: 'Values file to pass to ArgoCD'
     required: true
+
 runs:
   using: 'node16'
   main: 'dist/index.js'
