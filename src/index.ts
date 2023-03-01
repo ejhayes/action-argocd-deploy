@@ -20,6 +20,10 @@ enum INPUTS {
   NAMESPACE = 'namespace',
   PATH = 'path',
   PROJECT = 'project',
+  PR_NUMBER = 'prNumber',
+  REPO_REVISION = 'repoRevision',
+  REPO_URL = 'repoUrl',
+  REPO_WEBURL = 'repoWebUrl',
   TOKENS = 'tokens',
   VALUES_FILE = 'valuesFile',
 }
@@ -61,22 +65,6 @@ interface ActionArgs {
    */
   dryRun: boolean;
   /**
-   * Git revision to deploy
-   */
-  gitRef: string;
-  /**
-   * Git repo url to deploy (e.g. git://...)
-   */
-  gitRepoUrl: string;
-  /**
-   * Git SHA of the deployment
-   */
-  gitSha: string;
-  /**
-   * GitHub web url
-   */
-  gitWebUrl: string;
-  /**
    * Info tags to add to argo application
    */
   info: KeyVal;
@@ -97,9 +85,25 @@ interface ActionArgs {
    */
   path: string;
   /**
+   * Pull Request Number
+   */
+  prNumber?: number;
+  /**
    * Argo project to deploy to
    */
   project: string;
+  /**
+   * Repo revision to deploy
+   */
+  repoRevision: string;
+  /**
+   * Repo url to deploy
+   */
+  repoUrl: string;
+  /**
+   * Repo web url
+   */
+  repoWebUrl: string;
   /**
    * Tokens to replace in values file
    */
@@ -130,8 +134,8 @@ async function upsertApplication(args: ActionArgs) {
 
   const app = await client.createApplication(args.name, {
     clusterName: args.clusterName,
-    gitRef: args.gitSha,
-    gitRepo: args.gitRepoUrl,
+    gitRef: args.prNumber ? `pull/${args.prNumber}/head` : args.repoRevision,
+    gitRepo: args.repoUrl,
     helmValues: await promisify(readFile)(args.valuesFile),
     namespace: args.namespace,
     project: args.project,
@@ -144,7 +148,7 @@ async function upsertApplication(args: ActionArgs) {
     tokens: args.tokens,
   });
 
-  const webUiUrl = `${args.gitWebUrl}/blob/${args.gitSha}`;
+  const webUiUrl = `${args.repoWebUrl}/blob/${args.repoRevision}`;
 
   try {
     await app.toManifest();
@@ -217,6 +221,11 @@ function getClient(args: ActionArgs) {
 }
 
 function getInputs(): ActionArgs {
+  const prNumber = core.getInput(INPUTS.PR_NUMBER, {
+    required: false,
+    trimWhitespace: true,
+  });
+
   const inputs = {
     accessToken: core.getInput(INPUTS.ACCESS_TOKEN, { required: false }),
     action: core.getInput(INPUTS.ACTION, { required: true }) as any,
@@ -228,25 +237,13 @@ function getInputs(): ActionArgs {
     clientSecret: core.getInput(INPUTS.CLIENT_SECRET, { required: false }),
     clusterName: core.getInput(INPUTS.CLUSTER_NAME, { required: true }),
     dryRun: core.getBooleanInput(INPUTS.DRY_RUN, { required: false }),
-    /**
-     * Get the ref as follows:
-     * 1) User specified
-     * 2) If pull request, return the head_ref
-     * 3) Extract from GITHUB_REF
-     */
-    gitRef:
-      process.env.GITHUB_HEAD_REF ||
-      process.env.GITHUB_REF.replace(/refs\/[^\/]+\/([^\/]+).*/, '$1'),
-    gitSha: process.env.GITHUB_SHA,
-    gitWebUrl: `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}`,
-    /**
-     * TODO: this can be either https or git depending on argocd setup. rather than
-     * making an assumption here this should be cleaned up to be configurable
-     */
-    gitRepoUrl: `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}`,
     name: core.getInput(INPUTS.NAME, { required: true }),
     namespace: core.getInput(INPUTS.NAMESPACE, { required: true }),
     project: core.getInput(INPUTS.PROJECT, { required: true }),
+    prNumber: prNumber === '' ? null : Number(prNumber),
+    repoRevision: core.getInput(INPUTS.REPO_REVISION, { required: true }),
+    repoUrl: core.getInput(INPUTS.REPO_URL, { required: true }),
+    repoWebUrl: core.getInput(INPUTS.REPO_WEBURL, { required: true }),
     valuesFile: core.getInput(INPUTS.VALUES_FILE, { required: true }),
     info: (load(core.getInput(INPUTS.INFO, { required: false })) ||
       {}) as KeyVal,
