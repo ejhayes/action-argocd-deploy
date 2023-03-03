@@ -33,7 +33,7 @@
     "@types/js-yaml": "^4.0.5",
     "@typescript-eslint/eslint-plugin": "^5.38.1",
     "@vercel/ncc": "^0.34.0",
-    "action-docs": "^1.0.4",
+    "action-docs": "^1.2.0",
     "auto": "^10.37.6",
     "dotenv-cli": "^7.0.0",
     "eslint": "^8.24.0",
