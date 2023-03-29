@@ -36,7 +36,7 @@
     "action-docs": "^1.0.4",
     "auto": "^10.37.6",
     "dotenv-cli": "^7.0.0",
-    "eslint": "^8.24.0",
+    "eslint": "^8.37.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.2.1",
