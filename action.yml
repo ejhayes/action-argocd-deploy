@@ -18,10 +18,10 @@ inputs:
     required: true
   clientId:
     description: 'ArgoCD Client Id / Username'
-    required: true
+    required: false
   clientSecret:
     description: 'ArgoCD Client Secret / Password'
-    required: true
+    required: false
   clusterName:
     description: 'Cluster name to deploy to'
     required: true
