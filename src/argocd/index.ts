@@ -56,8 +56,8 @@ export class ArgoCDApi {
     // does the application exist?
     const appExists = await (
       await this._getClient()
-      ).get(`applications/${releaseName}?project=${args.project}`);
-      
+    ).get(`applications/${releaseName}?project=${args.project}`);
+
     let res: IRestResponse<unknown>;
 
     info(`Tokenizing with: ${JSON.stringify(args.tokens, null, 2)}`);
