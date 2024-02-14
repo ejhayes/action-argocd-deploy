@@ -1,0 +1,32 @@
+on:
+  push:
+    branches:
+      - releases/next
+
+jobs:
+  verify_action_works:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ejhayes/action-argocd-deploy@releases/next
+        with:
+          dryRun: true
+          clientId: username
+          clientSecret: password
+          clusterName: 'default'
+          baseUrl: https://example.com
+          name: my-service
+          namespace: default
+          path: fixtures
+          project: default
+          valuesFile: fixtures/values.yaml
+          tokens: |
+            TAG: latest
+          annotations: |
+            myannotation: "true"
+          labels: |
+            group: group-a
+            env: prod
+          info: |
+            rev: ${{ github.ref }}
+            sha: ${{ github.sha }}
